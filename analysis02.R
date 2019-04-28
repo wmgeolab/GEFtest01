@@ -14,5 +14,8 @@ matchingmodel$model
 matcheddataframe=match.data(matchingmodel)
 matchingmodel
 #wanting to look at Value_diff (change in assets) with variables
-finalmodelanalysis=lm(Value_dif~treated+mergedata_air_pollution_o3_1_130+mergedata_esa_landcover_v207_146+mergedata_ltdr_avhrr_yearly__207,
+finalmodelanalysis=lm(Value_diff~treated+mergedata_air_pollution_o3_1_130+mergedata_esa_landcover_v207_146+mergedata_ltdr_avhrr_yearly__207,
                      data=matcheddataframe)
+names(dataframe)
+finalmodelanalysis=lm(Value_diff~treated+mergedata_air_pollution_o3_1_130+mergedata_esa_landcover_v207_146+mergedata_ltdr_avhrr_yearly__207,
+                      data=matcheddataframe)
