@@ -4,8 +4,8 @@ hist(dataframe$NEAR_FID)
 dataframe$treated=0
 dataframe[dataframe$NEAR_DIST<50000,]["treated"]=1
 #create no null dataframe with values that we want to be complete for both years to allow comparison
-dataframe_nonull=dataframe[complete.cases(dataframe[c("mergedata_air_pollution_o3_1_130", "mergedata_esa_landcover_v207_146", "mergedata_ltdr_avhrr_yearly__207")]),]
-dataframe_nonull=dataframe_nonull[c("mergedata_air_pollution_o3_1_130", "mergedata_esa_landcover_v207_146", "mergedata_ltdr_avhrr_yearly__207", "treated")]
+dataframe_nonull=dataframe[complete.cases(dataframe[c("mergedata_air_pollution_o3_1_130", "mergedata_esa_landcover_v207_146", "mergedata_ltdr_avhrr_yearly__207", "Value_diff")]),]
+dataframe_nonull=dataframe_nonull[c("mergedata_air_pollution_o3_1_130", "mergedata_esa_landcover_v207_146", "mergedata_ltdr_avhrr_yearly__207", "treated", "Value_diff")]
 library("MatchIt")
 matchingmodel=matchit(treated~mergedata_air_pollution_o3_1_130+mergedata_esa_landcover_v207_146+mergedata_ltdr_avhrr_yearly__207,
                       data=dataframe_nonull,
@@ -13,10 +13,14 @@ matchingmodel=matchit(treated~mergedata_air_pollution_o3_1_130+mergedata_esa_lan
 matchingmodel$model
 matcheddataframe=match.data(matchingmodel)
 matchingmodel
+
+#to see what variables/columns exist in data
+names(matcheddataframe)
+
+
+
 #wanting to look at Value_diff (change in assets) with variables
 finalmodelanalysis=lm(Value_diff~treated+mergedata_air_pollution_o3_1_130+mergedata_esa_landcover_v207_146+mergedata_ltdr_avhrr_yearly__207,
                      data=matcheddataframe)
-#to see what variables/columns exist in data
-names(dataframe)
-finalmodelanalysis=lm(Value_diff~treated+mergedata_air_pollution_o3_1_130+mergedata_esa_landcover_v207_146+mergedata_ltdr_avhrr_yearly__207,
-                      data=matcheddataframe)
+
+summary(finalmodelanalysis)
